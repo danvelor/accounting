@@ -25,4 +25,10 @@
     <ProjectReference Include="..\accounting.api.service\accounting.api.service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="accounting.api.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
