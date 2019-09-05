@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using accounting.api.infrastructure.Data;
 using accounting.api.infrastructure.Interfaces;
 using accounting.api.infrastructure.Repository;
+using accounting.api.service.Interfaces;
+using accounting.api.service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -49,12 +51,12 @@ namespace accounting.api
             });
 
             #region Dependency Container
-            //string connection = Configuration.GetValue<string>("ConnectionStrings:ConnectionString");
+            string connection = Configuration.GetValue<string>("ConnectionStrings:ConnectionString");
 
-            //services.AddScoped(p => new accountingContext(connection));
-            //services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped(p => new accountingContext(connection));
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
 
-            //services.AddScoped<IPolicyService, PolicyService>();
             #endregion
         }
 

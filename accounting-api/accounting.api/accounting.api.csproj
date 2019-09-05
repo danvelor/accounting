@@ -5,6 +5,10 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>E:\data\lab\accounting\accounting-api\accounting.api\accounting.api.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
@@ -17,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\accounting.api.infrastructure\accounting.api.infrastructure.csproj" />
+    <ProjectReference Include="..\accounting.api.service\accounting.api.service.csproj" />
   </ItemGroup>
 
 </Project>
