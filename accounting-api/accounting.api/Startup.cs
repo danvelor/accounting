@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using accounting.api.infrastructure.Data;
+using accounting.api.infrastructure.Interfaces;
+using accounting.api.infrastructure.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace accounting.api
 {
@@ -25,7 +30,32 @@ namespace accounting.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc();
+
+            services.AddCors(o => o.AddPolicy("MyAccounting", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Accounting API by Daniel Vélez", Version = "v1" });
+                // Set the comments path for the Swagger JSON and UI.
+                var basePath = AppContext.BaseDirectory;
+                var xmlPath = Path.Combine(basePath, "accounting.api.xml");
+                c.IncludeXmlComments(xmlPath);
+            });
+
+            #region Dependency Container
+            //string connection = Configuration.GetValue<string>("ConnectionStrings:ConnectionString");
+
+            //services.AddScoped(p => new accountingContext(connection));
+            //services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+            //services.AddScoped<IPolicyService, PolicyService>();
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,13 +65,19 @@ namespace accounting.api
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
 
-            app.UseHttpsRedirection();
+            app.UseCors("MyAccounting");
+
+            //Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            //Enable middleware to serve swagger - ui(HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Accounting API V1");
+                c.RoutePrefix = "swagger";
+            });
+
             app.UseMvc();
         }
     }
