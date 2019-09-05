@@ -18,26 +18,31 @@ namespace accounting.api.service.Services
 
         public List<EmployeeDetail> GetEmployee()
         {
-            return SalaryFormula(_EmployeeRepository.GetEmployee());
+            return AnnualSalary(_EmployeeRepository.GetEmployee());
         }
 
         public List<EmployeeDetail> GetEmployee(int id)
         {
-            return SalaryFormula(_EmployeeRepository.GetEmployee(id));
+            return AnnualSalary(_EmployeeRepository.GetEmployee(id));
         }
 
-        private List<EmployeeDetail> SalaryFormula(List<EmployeeDetail> lsEmployeeDetail)
+        private List<EmployeeDetail> AnnualSalary(List<EmployeeDetail> lsEmployeeDetail)
         {
             foreach(var item in lsEmployeeDetail)
             {
                 List<EmployeeDetail> lsEmployeeDetail_ = new List<EmployeeDetail>();
-                
-                if (item.id_salary_type == 1)
+ 
+                switch (item.id_salary_type)
                 {
-                    item.salary = 120 * item.salary * 12;
-                }else if (item.id_salary_type == 2)
-                {
-                    item.salary = item.salary * 12;
+                    case 1:
+                        item.salary = 120 * item.salary * 12;
+                        break;
+                    case 2:
+                        item.salary = item.salary * 12;
+                        break;
+                    default:
+                        item.salary = 0;
+                        break;
                 }
 
                 lsEmployeeDetail_.Add(item);

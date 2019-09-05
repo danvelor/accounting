@@ -8,13 +8,13 @@
             <summary>
             Get employees' list
             </summary>
-            <returns>Returns an employees' list with identity and salary information</returns>        
+            <returns>Returns an employees' list with identity and annual salary information</returns>        
         </member>
         <member name="M:accounting.api.Controllers.EmployeeController.Get(System.Int32)">
             <summary>
             Get employee by id
             </summary>
-            <returns>Returns an employee with identity and salary information</returns> 
+            <returns>Returns an employee with identity and annual salary information</returns> 
         </member>
     </members>
 </doc>

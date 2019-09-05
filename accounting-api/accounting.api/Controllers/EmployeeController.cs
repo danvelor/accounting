@@ -30,7 +30,7 @@ namespace accounting.api.Controllers
         /// <summary>
         /// Get employees' list
         /// </summary>
-        /// <returns>Returns an employees' list with identity and salary information</returns>        
+        /// <returns>Returns an employees' list with identity and annual salary information</returns>        
         [HttpGet()]
         [SwaggerResponse(200, Type = typeof(List<EmployeeDTO>))]
         public ActionResult<List<EmployeeDTO>> Get()
@@ -43,7 +43,7 @@ namespace accounting.api.Controllers
         /// <summary>
         /// Get employee by id
         /// </summary>
-        /// <returns>Returns an employee with identity and salary information</returns> 
+        /// <returns>Returns an employee with identity and annual salary information</returns> 
         [HttpGet("{id}", Name = "Get")]
         [SwaggerResponse(200, Type = typeof(List<EmployeeDTO>))]
         public ActionResult<List<EmployeeDTO>> Get(int id)
