@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using accounting.api.DTOs;
+using accounting.api.infrastructure.Interfaces;
+using accounting.api.service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.Swagger.Annotations;
+using accounting.api.Mappers;
 
 namespace accounting.api.Controllers
 {
@@ -11,36 +16,42 @@ namespace accounting.api.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        // GET: api/Employee
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+        public IEmployeeRepository _EmployeeRepository { get; set; }
+        public IEmployeeService _EmployeeService { get; set; }
+
+
+        public EmployeeController(IEmployeeRepository EmployeeRepository, IEmployeeService EmployeeService)
         {
-            return new string[] { "value1", "value2" };
+            _EmployeeRepository = EmployeeRepository;
+            _EmployeeService = EmployeeService;
         }
 
-        // GET: api/Employee/5
+        /// <summary>
+        /// Get employees' list
+        /// </summary>
+        /// <returns>Returns an employees' list with identity and salary information</returns>        
+        [HttpGet()]
+        [SwaggerResponse(200, Type = typeof(List<EmployeeDTO>))]
+        public ActionResult<List<EmployeeDTO>> Get()
+        {
+            List<EmployeeDTO> lsEmployeeDTO = new List<EmployeeDTO>();
+            lsEmployeeDTO = EmployeeDetailToEmployeeDTO.ToEmployeeDTO(_EmployeeService.GetEmployee());
+            return lsEmployeeDTO;
+        }
+
+        /// <summary>
+        /// Get employee by id
+        /// </summary>
+        /// <returns>Returns an employee with identity and salary information</returns> 
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [SwaggerResponse(200, Type = typeof(List<EmployeeDTO>))]
+        public ActionResult<List<EmployeeDTO>> Get(int id)
         {
-            return "value";
+            List<EmployeeDTO> lsEmployeeDTO = new List<EmployeeDTO>();
+            lsEmployeeDTO = EmployeeDetailToEmployeeDTO.ToEmployeeDTO(_EmployeeService.GetEmployee(id));
+            return lsEmployeeDTO;
         }
 
-        // POST: api/Employee
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT: api/Employee/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

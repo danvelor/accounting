@@ -7,6 +7,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>E:\data\lab\accounting\accounting-api\accounting.api\accounting.api.xml</DocumentationFile>
+    <OutputPath>swagger</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
