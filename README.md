@@ -17,7 +17,8 @@ Arquitectura: Onion
 
 # Base de datos
   Azure SQL DataBase
-
+# Modelo de Base de datos
+![alt text](https://github.com/danvelor/accounting/blob/master/database-model/accounting-relational-model.jpg)
 
 
 # FrontEnd
